@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     # Set environment variables if needed (e.g., for module imports)
     env:
