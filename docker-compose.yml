@@ -1,0 +1,23 @@
+services:
+  # Main application service
+  web:
+    container_name: web_container
+    build: .
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    # Health check to ensure the application is running and responsive
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 5s     # Interval between checks
+      timeout: 5s      # Timeout for each check
+      retries: 5       # Number of retry attempts before considering the service unhealthy
+
+  # Service for running tests
+  test:
+    container_name: tests_container
+    build: .
+    command: pytest
+    depends_on:
+      web:
+        condition: service_healthy  # Wait until the web service passes its health check
